@@ -1,0 +1,40 @@
+{% extends "task/index.html.twig" %}
+
+{% block title %}add {% endblock %}
+{% block content%}
+    <form method="post" class="mx-auto text-center mt-5">
+        <h2 class="mb-6">
+            Toevoegen
+        </h2>
+        <p>Titel</p>
+        <label>
+            <input type="text" name="title" id="title" required class="text-center rounded-xl border-black border-2 mb-6">
+        </label><br>
+        <p>Tekst</p>
+        <label>
+            <textarea name="notes" id="notes" minlength="200"  required class="text-center w-56 h-36 rounded-xl border-black border-2 mb-6 "></textarea>
+        </label>
+        <br>
+        <p>Startdatum</p>
+        <label>
+            <input type="datetime-local" name="start_date" id="start_date" required class="text-center rounded-xl border-black border-2 mb-6">
+        </label><br>
+        <p>Einddatum</p>
+        <label>
+            <input type="datetime-local" name="end_date" id="end_date" required class="text-center rounded-xl border-black border-2 mb-6">
+        </label><br>
+        <label>
+            kies een status<br>
+            <select name="status" id="status" required class="text-center rounded-xl border-black border-2 mb-6">
+                <option value='Active'>Active</option>
+                <option value='in Review'>in Review</option>
+                <option value='Completed'>Completed</option>
+            </select>
+        </label><br>
+        <p>autheur</p>
+        <label>
+            <input type="text" name="author" id="author" required class="text-center rounded-xl border-black border-2 mb-6">
+        </label><br>
+        <input class="px-5 py-1.5 bg-blue-400 rounded-2xl border-2 mb-6" type="submit" name="send">
+    </form>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "task/index.html.twig" %}
+
+{% block title %}Tasks {% endblock %}
+{% block content %}
+    <div class="flex flex-col items-end">
+        {% if admin is defined %}
+            <a href="tasks/sign-up" class="w-10"><img class="w-10" src="images/new-user.png"></a>
+        {% endif %}
+        <a href="/tasks/archive" class="w-10"><img class="w-10" src="images/archive.svg"></a>
+    </div>
+    <a href="tasks/add" class="flex mx-auto w-10"><img class="mt-5" src="images/addlogo.png"></a>
+    <form method="post" class="block text-center mt-5">
+        <h2>
+            filteren naar een task
+        </h2>
+        <p>voer hier de title in</p>
+        <label>
+            <input class="text-center rounded-xl border-black border-2 mb-6" type="text" name="searchtitle">
+        </label>
+        <p>sorteren naar aanpassingsdatum</p>
+        <label>
+            <select name="changedDate" class="text-center rounded-xl border-black border-2 mb-6">
+                <option value="none">maak een keuze</option>
+                <option value="o/n">oud naar nieuw</option>
+                <option value="n/o">nieuw naar oud</option>
+            </select>
+        </label>
+        <p>sorteren naar eindatum</p>
+        <label>
+            <select name="endDate" class="text-center rounded-xl border-black border-2 mb-6">
+                <option value="zero">maak een keuze</option>
+                <option value="o/n">oud naar nieuw</option>
+                <option value="n/o">nieuw naar oud</option>
+            </select>
+        </label><br>
+        <input type="submit" name="fliteren" value="filteren" class="text-center rounded-xl border-black border-2 p-1">
+    </form>
+    <form method="post" class="flex flex-col items-center mt-5 w-3/4 mx-auto">
+        {% for task in tasks %}
+            <div class="border-4 w-full rounded-xl
+                {% if task.status is same as 'Completed' %}
+                    border-green-500
+                {% elseif task.status is same as 'in Review' %}
+                    border-orange-400
+                {% elseif "now"|date('Y-m-d-H:i:s') > task.end_date %}
+                    border-red-500
+                {% else %}
+                    border-black
+                {% endif %}">
+                <div class="bg-blue-400 pb-4">
+                    <h1 class="text-left ml-14 text-white text-5xl font-bold">{{ task.title }}</h1>
+                </div>
+                <div class="flex">
+                    <div class="ml-4">
+                        <input type="checkbox" name="multipleSelect[]" value="{{ task.id }}" class="mt-5 mb-4 w-4 h-4 ml-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <a href="/tasks/completed?taskId={{ task.id }}"><img class="w-10 mb-4" src="images/checkmark.svg" alt="Checkmark-button"></a>
+                        <a href="/tasks/update?taskId={{ task.id }}"><img class="w-10 mb-4" src="images/edit-button.png" alt="Edit-button"></a>
+                        <a href="/tasks/archived?taskId={{ task.id }}"><img class="w-10 mb-4" src="images/archive.svg" alt="Archive-button"></a>
+                        <a onclick="confirmDelete('{{ task.id }}')"><img class="w-10"  src="images/delete-button.svg" alt="Delete-button"></a>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <p class="font-bold">Notes:</p>
+                        <p class="w-2/5 text-justify break-all">{{ task.notes }}</p>
+                    </div>
+                </div>
+                <div class="flex justify-evenly mt-5">
+                    <div class="ml-14">
+                        <p class="font-bold">De status:</p>
+                        <p>{{ task.status }}</p>
+                    </div>
+                    <div class="ml-14">
+                        <p class="font-bold">Startdatum:</p>
+                        <p>{{ task.start_date }}</p>
+                    </div>
+                    <div class="ml-14">
+                        <p class="font-bold">Einddatum:</p>
+                        <p>{{ task.end_date }}</p>
+                    </div>
+                    <div class="ml-14">
+                        <p class="font-bold">De author:</p>
+                        <p>{{ task.author }}</p>
+                    </div>
+                    <div class="ml-14">
+                        <p class="font-bold">Laatste wijzigingen:</p>
+                        <p>
+                            {{ task.last_changed }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+        <div class="flex">
+            <input class="cursor-pointer px-5 py-1.5 bg-blue-400 rounded-2xl border-2 mt-5 border-blue-400 mr-5" formaction="/task/delete" type="submit" name="Delete" value="Delete">
+            <input class="cursor-pointer px-5 py-1.5 bg-blue-400 rounded-2xl border-2 mt-5 border-blue-400" type="submit" formaction="/tasks/multipleArchive " name="Archive" value="Archive">
+        </div>
+    </form>
+{% endblock %}

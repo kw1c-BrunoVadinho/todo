@@ -1,0 +1,19 @@
+{% extends "task/index.html.twig" %}
+
+{% block title %}Login {% endblock %}
+{% block content %}
+    <form  method="post" class="mx-auto text-center mt-5">
+        <h2 class="mb-6">
+            inloggen
+        </h2>
+        <p>Username</p>
+        <label>
+            <input type="text" name="Username" required class="text-center rounded-xl border-black border-2 mb-6">
+        </label><br>
+        <p>Password</p>
+        <label>
+            <input type="password" name="Password" required class="text-center rounded-xl border-black border-2 mb-6">
+        </label><br>
+        <input class="px-5 py-1.5 bg-blue-400 rounded-2xl border-2 mb-6" type="submit" name="send">
+    </form>
+{% endblock %}
